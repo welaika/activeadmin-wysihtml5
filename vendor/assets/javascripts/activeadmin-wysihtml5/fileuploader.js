@@ -486,6 +486,7 @@ qq.FileUploader = function(o){
 
         template: '<div class="qq-uploader">' +
                 '<div class="qq-upload-drop-area"><span>Drop files here to upload</span></div>' +
+                '<span class="qq-upload-spinner"></span><br>' +
                 '<div class="qq-upload-button">Upload a file</div>' +
                 '<ul class="qq-upload-list"></ul>' +
              '</div>',
@@ -530,6 +531,8 @@ qq.FileUploader = function(o){
 
     this._bindCancelEvent();
     this._setupDragDrop();
+
+    $(".qq-upload-spinner").hide();
 };
 
 // inherit from Basic Uploader
@@ -598,6 +601,8 @@ qq.extend(qq.FileUploader.prototype, {
         var size = this._find(item, 'size');
         size.style.display = 'inline';
 
+        $(".qq-upload-spinner").show();
+
         var text;
         if (loaded != total){
             text = Math.round(loaded / total * 100) + '% from ' + this._formatSize(total);
@@ -613,7 +618,8 @@ qq.extend(qq.FileUploader.prototype, {
         // mark completed
         var item = this._getItemByFileId(id);
         qq.remove(this._find(item, 'cancel'));
-        qq.remove(this._find(item, 'spinner'));
+        //qq.remove(this._find(item, 'spinner'));
+        $(".qq-upload-spinner").hide();
 
         if (result.success){
             qq.addClass(item, this._classes.success);
